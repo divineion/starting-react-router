@@ -46,20 +46,20 @@ const ContactForm = (props) => {
              <div className="wow fadeInUp" data-wow-delay="0.8s">
                   <div className="col-md-6 col-sm-6">
                        <label htmlFor="name">Name</label>
-                       <input value={formData.name} onChange={onChangeHandler} type="text" className="form-control" id="name" name="name"  placeholder="Full Name"/>
+                       <input value={formData.name} onChange={onChangeHandler} type="text" className="form-control" id="name" name="name"  placeholder="Full Name" required/>
                   </div> 
                   <div className="col-md-6 col-sm-6">
                        <label htmlFor="email">Email</label>
-                       <input  value={formData.email} onChange={onChangeHandler} type="email" className="form-control" id="email" name="email"  placeholder="Your Email"/>
+                       <input  value={formData.email} onChange={onChangeHandler} type="email" className="form-control" id="email" name="email"  placeholder="Your Email" required/>
                   </div>
                   <div className="col-md-6 col-sm-6">
                        <label htmlFor="date">Select Date</label>
-                       <input value={formData.date} onChange={onChangeHandler} type="date" name="date"  className="form-control"/>
+                       <input value={formData.date} onChange={onChangeHandler} type="date" name="date"  className="form-control" required/>
                   </div>
 
                     <div className="col-md-6 col-sm-6">
                          <label htmlFor="select">Select Department</label>
-                         <select value={formData} onChange={onChangeHandler} name='department' className="form-control">
+                         <select value={formData.department} onChange={onChangeHandler} name='department' className="form-control" required>
                              <optgroup label="Department">
                                    <option value='General'>General Health</option>
                                    <option value='Cardiology'>Cardiology</option>
@@ -71,10 +71,10 @@ const ContactForm = (props) => {
 
                   <div className="col-md-12 col-sm-12">
                        <label htmlFor="telephone">Phone Number</label>
-                       <input value={formData.phone} onChange={onChangeHandler} type="tel" className="form-control" id="phone" name="phone" placeholder="Phone"/>
+                       <input value={formData.phone} onChange={onChangeHandler} type="tel" className="form-control" id="phone" name="phone" placeholder="Phone" required/>
 
                        <label htmlFor="Message">Additional Message</label>
-                       <textarea value={formData.message}  onChange={onChangeHandler} className="form-control" rows="5" id="message" name="message" placeholder="Message"></textarea>
+                       <textarea value={formData.message}  onChange={onChangeHandler} className="form-control" rows="5" id="message" name="message" placeholder="Message" required></textarea>
                        
                        <button type="submit" className="form-control" id="cf-submit" name="submit">Submit Button</button>
                   </div>
