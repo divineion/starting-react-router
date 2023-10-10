@@ -12,7 +12,7 @@ const contactFormEmpty = {
      date: defaultValueInputDate,
      phone: '',
      department: '',
-     message: ''
+     message: '', 
 }
 
 let appointment;
@@ -28,9 +28,28 @@ const ContactForm = (props) => {
           setFormData(formData => ({...formData, [name]: value}))
      }
 
-     const handleSubmit = (e) => {
+     const handleSubmit = async (e) => {
           e.preventDefault()
           appointment = {...formData}
+
+          await fetch('http://127.0.0.1:8000/apip/appointments', {
+               method: 'POST',
+               headers: {
+                    'Content-Type': 'application/json',
+               },
+               body: JSON.stringify(appointment),
+          })
+          .then(response => {
+               if (!response.ok) {
+                    throw new Error('ERREUR ! statut :' + response.status);
+               }
+               return response.json()
+          })
+          .then(data => console.log(data))
+          .catch((error) => {
+               console.error('Error : ', error);
+          });
+
           setFormData({...contactFormEmpty})
           console.log(appointment)
      }

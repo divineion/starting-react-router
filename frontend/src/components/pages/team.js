@@ -1,8 +1,10 @@
 import Doctor from "./doctor";
 
-const Team = (props) => {
 
+
+const Team = (props) => {
     return (
+
           <div>
                <section id="team" data-stellar-background-ratio="1">
                     <div className="container">

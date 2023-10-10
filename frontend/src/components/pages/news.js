@@ -3,6 +3,8 @@ import image from './../../images/news-image1.jpg'
 import image2 from './../../images/news-image2.jpg';
 import image3 from './../../images/news-image3.jpg';
 import authorImage from './../../images/author-image.jpg';
+import { useState, useEffect } from "react";
+
 
 const articles = [
      {
@@ -58,33 +60,26 @@ const articles = [
 
 const News = (props) => {
 
+     const [articlesList, setArticlesList] = useState([]);
 
-     
-      const displayArticles = articles.slice(0,3).map((article, index) => (
-          <div key={index} className="col-md-4 col-sm-6" id="NEWSTHUMB">
-                                   <div className="news-thumb wow fadeInUp" data-wow-delay="0.4s">
-                                        <a href="news-detail.html">
-                                             <img src={ article.illustration.image } className="img-responsive" alt={ articles[0].illustration.title }/>
-                                        </a>
-                                        <div className="news-info">
-                                             <span>{ article.date }</span>
-                                             <h3><a href="news-detail.html">{ article.title }</a></h3>
-                                             <p>{ article.content }</p>
-                                             <div className="author">
-                                                  <img src={ article.author.image } className="img-responsive" alt=""/>
-                                                  <div className="author-info">
-                                                       <h5>{ article.author.name }</h5>
-                                                       <p>{ article.author.function }</p>
-                                                  </div>
-                                             </div>
-                                        </div>
-                                   </div>
-                              </div>
-     ));
+     useEffect(() => {
+          fetch('https://127.0.0.1:8000/apip/articles?page=1')
+              .then(response => {
+                  if (!response.ok) {
+                      throw new Error('Erreur réseau');
+                  }
+                  return response.json()
+              })
+              .then((data) => {
+                  setArticlesList(data['hydra:member']);
+                  console.log(data['hydra:member'])
+              })
+              .catch(error => {
+                  console.log('Erreur : ', error)
+              });
+     }, []);
 
-
-
-    return (
+     return (
           <div>
                <section id="news" data-stellar-background-ratio="2.5">
                     <div className="container">
@@ -96,17 +91,33 @@ const News = (props) => {
                                    </div>
                               </div>
 
-                              { displayArticles }
-
+                              {articlesList.slice(0,3).map((article, index) => (
+                                   <div key={index} className="col-md-4 col-sm-6" id="NEWSTHUMB">
+                                        <div className="news-thumb wow fadeInUp" data-wow-delay="0.4s">
+                                             <a href="news-detail.html">
+                                                  <img src={ article.illustration.image } className="img-responsive" alt={ articles[0].illustration.title }/>
+                                             </a>
+                                             <div className="news-info">
+                                                  <span>{ new Date(article.date).toLocaleDateString('en-US', {year: 'numeric', month: 'long', day: '2-digit'})  }</span>
+                                                  <h3><a href="news-detail.html">{ article.title }</a></h3>
+                                                  <p>{ article.content }</p>
+                                                  <div className="author">
+                                                       <img src={ article.author.image } className="img-responsive" alt=""/>
+                                                       <div className="author-info">
+                                                            <h5>{ article.author.name }</h5>
+                                                            <p>{ article.author.function }</p>
+                                                       </div>
+                                                  </div>
+                                             </div>
+                                        </div>
+                                   </div>
+                              ))} 
                          </div>
                     </div>
                </section>
           </div>
      );
-
-    
 }
-
-
+     
 export default News;
 export { articles };
