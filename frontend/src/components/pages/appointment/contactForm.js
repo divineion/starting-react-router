@@ -1,5 +1,6 @@
 import './appointment.css';
 import { useState } from 'react';
+import emailjs from '@emailjs/browser';
 
 
 let today;
@@ -11,7 +12,7 @@ const contactFormEmpty = {
      email: '',
      date: defaultValueInputDate,
      phone: '',
-     department: '',
+     department: 'General',
      message: '', 
 }
 
@@ -30,9 +31,11 @@ const ContactForm = (props) => {
 
      const handleSubmit = async (e) => {
           e.preventDefault()
+          
+          console.log('formData', formData);
           appointment = {...formData}
 
-          await fetch('http://127.0.0.1:8000/apip/appointments', {
+          await fetch('https://127.0.0.1:8000/apip/appointments.json', {
                method: 'POST',
                headers: {
                     'Content-Type': 'application/json',
@@ -43,6 +46,7 @@ const ContactForm = (props) => {
                if (!response.ok) {
                     throw new Error('ERREUR ! statut :' + response.status);
                }
+               console.log('response', response);
                return response.json()
           })
           .then(data => console.log(data))
@@ -50,8 +54,26 @@ const ContactForm = (props) => {
                console.error('Error : ', error);
           });
 
+          /**
+           *  MAIL
+           */
+
+                (function() {
+          // https://dashboard.emailjs.com/admin/account
+          emailjs.init('GhUDJUsLSOC3pHJmg');
+      })();
+
+          var templateParams = {
+               to_name: 'Health Center Team',
+               from_name: appointment.name,
+               message: `New appointment request from ${appointment.name}: \n message :  ${appointment.message}  \n preferred date : ${appointment.date} \n department : ${appointment.department}  \n email :  ${appointment.email} \n phone contact :  ${appointment.phone}`
+           };
+
+          emailjs.send('default_service', 'template_5binzzt', templateParams);
+
+
           setFormData({...contactFormEmpty})
-          console.log(appointment)
+          console.log('appointment', appointment)
      }
 
      return (
