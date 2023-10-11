@@ -23,6 +23,8 @@ const ContactForm = (props) => {
      const [formData, setFormData] = useState({...contactFormEmpty})
 
 
+
+
      const onChangeHandler = (e) => {
           const name = e.target.name;
           const value = e.target.value;
@@ -55,10 +57,10 @@ const ContactForm = (props) => {
           });
 
           /**
-           *  MAIL
+           *  MAIL APPOINTMENT REQUEST INFORMATIONS
            */
 
-                (function() {
+          (function() {
           // https://dashboard.emailjs.com/admin/account
           emailjs.init('GhUDJUsLSOC3pHJmg');
       })();
@@ -78,6 +80,7 @@ const ContactForm = (props) => {
 
      return (
         <>
+        
         <form onSubmit={handleSubmit} id="appointment-form" method="post" action="#">
 
              <div className="section-title wow fadeInUp" data-wow-delay="0.4s">
@@ -121,10 +124,12 @@ const ContactForm = (props) => {
                   </div>
              </div>
         </form>
+            
+     
    </>
-
     )
-
 }
+
+
 
 export default ContactForm;
